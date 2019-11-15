@@ -560,13 +560,15 @@ class PosenetActivity :
         if(diffLSE < caliThresholdStartMin && diffRSE < caliThresholdStartMin && diffS < 5 && diffE < caliThresholdStartMin)
         {
             App.getInstance().getSP().dataFirst(diffLSE, diffRSE, diffS, diffE)
-          Log.i("MATCH FOUND START",diffS.toString() + diffLSE.toString() + diffRSE.toString())
+//          Toast.makeText(context,diffS.toString() + diffLSE.toString() + diffRSE.toString(),Toast.LENGTH_LONG).show()
+          Log.i("MATCH FOUND START","START" + diffS.toString() + diffLSE.toString() + diffRSE.toString())
         }
 
         if(LE < LS && RE < RS) {
           if ((diffLSE > caliThresholdEndMin && diffLSE < caliThresholdEndMax) && (diffRSE > caliThresholdEndMin && diffRSE < caliThresholdEndMax) && diffS < 5) {
               App.getInstance().getSP().dataSecond(LE, LS, RE, RS)
-            Log.i("MATCH FOUND END", diffS.toString() + diffLSE.toString() + diffRSE.toString())
+//            Toast.makeText(context,diffS.toString() + diffLSE.toString() + diffRSE.toString(),Toast.LENGTH_LONG).show()
+            Log.i("MATCH FOUND END", "END" + diffS.toString() + diffLSE.toString() + diffRSE.toString())
           }
         }
 
