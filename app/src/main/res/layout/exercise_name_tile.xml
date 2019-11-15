@@ -17,7 +17,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:strokeColor="@color/black_overlay"
-
+            app:rippleColor="@color/black_overlay"
+            style="@style/Widget.MaterialComponents.CardView"
             app:strokeWidth="2dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">

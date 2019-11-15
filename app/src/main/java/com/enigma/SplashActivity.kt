@@ -60,7 +60,7 @@ class SplashActivity : AppCompatActivity() {
     fun changeImage() {
         Handler().postDelayed({
             if (i == len) {
-                startActivity(Intent(this@SplashActivity, ExerciseList::class.java))
+                startActivity(Intent(this@SplashActivity, GoalActivity::class.java))
                 finish()
             } else {
                 image.background = VectorDrawableCompat.create(resources, list[i], null)

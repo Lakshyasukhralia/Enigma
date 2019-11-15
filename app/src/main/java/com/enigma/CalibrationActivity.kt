@@ -2,6 +2,7 @@ package com.enigma
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,8 @@ class CalibrationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calibration)
         setSupportActionBar(toolbar)
+        supportActionBar?.title = "Calibrate Data"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
         val content = findViewById<View>(R.id.content)
@@ -46,6 +49,15 @@ class CalibrationActivity : AppCompatActivity() {
         if(App.getInstance().getSP().LS() != 0){
             binding.textView4.setText(App.getInstance().getSP().LS().toString() +  ", " + App.getInstance().getSP().LE().toString() + ", " + App.getInstance().getSP().RE().toString() + ", " + App.getInstance().getSP().RS().toString())
         }
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            android.R.id.home->
+                onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
 
     }
 

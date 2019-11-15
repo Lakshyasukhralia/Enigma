@@ -50,12 +50,25 @@
             android:background="@drawable/ic_paly"/>
 
 
-        <Button
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/black"
+            android:text="Calibrate your data"
+            android:textSize="16sp"
+            />
+
+        <ImageButton
             android:id="@+id/calibration_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Calibration"/>
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ic_calibration"/>
+
 
 
     </LinearLayout>

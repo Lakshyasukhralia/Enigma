@@ -3,36 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".CalibrationActivity"
+        android:orientation="vertical"
+        android:gravity="center"
         tools:showIn="@layout/activity_calibration">
 
 
-        <Button
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/black"
+            android:text="Add your data"
+            android:textSize="16sp"
+            />
+
+        <ImageButton
             android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Add Data"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            android:background="@drawable/ic_plus"
+           />
 
 
-        <Button
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/black"
+            android:text="Clear your data"
+            android:textSize="16sp"
+            />
+        <ImageButton
             android:id="@+id/clearData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Clear Data"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            android:background="@drawable/ic_error"
+             />
 
         <TextView
             android:id="@+id/textView2"
@@ -41,6 +64,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             tools:text="TextView"
+            android:visibility="gone"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clearData" />
@@ -53,7 +77,8 @@
             android:layout_marginTop="24dp"
             tools:text="TextView"
             android:textColor="@color/black"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>
