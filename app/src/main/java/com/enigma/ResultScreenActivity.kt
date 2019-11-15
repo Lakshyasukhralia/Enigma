@@ -29,6 +29,7 @@ class ResultScreenActivity : AppCompatActivity() {
         binding = DataBindingUtil.bind<ContentResultScreenBinding>(content)!!
 
         val score = intent.extras?.getInt("score")
+        val total = intent.extras?.getInt("total")
         binding.score.text = score.toString()
 
 
@@ -39,7 +40,7 @@ class ResultScreenActivity : AppCompatActivity() {
                     binding.resultDesc.setTextColor(resources.getColor(R.color.exceeded))
 
                     setCustomGaugeProgress(
-                        ((score.toFloat() / 15) * 100).toInt(),
+                        ((score.toFloat() / total!!) * 100).toInt(),
                         binding.customGauge,
                         R.color.exceeded
                     )
@@ -48,7 +49,7 @@ class ResultScreenActivity : AppCompatActivity() {
                     binding.resultDesc.text = getString(R.string.good)
                     binding.resultDesc.setTextColor(resources.getColor(R.color.high))
                     setCustomGaugeProgress(
-                        ((score.toFloat() / 15) * 100).toInt(),
+                        ((score.toFloat() / total!!) * 100).toInt(),
                         binding.customGauge,
                         R.color.high
                     )
@@ -57,7 +58,7 @@ class ResultScreenActivity : AppCompatActivity() {
                     binding.resultDesc.text = getString(R.string.excellent)
                     binding.resultDesc.setTextColor(resources.getColor(R.color.standard))
                     setCustomGaugeProgress(
-                        ((score.toFloat() / 15) * 100).toInt(),
+                        ((score.toFloat() / total!!) * 100).toInt(),
                         binding.customGauge,
                         R.color.standard
                     )
