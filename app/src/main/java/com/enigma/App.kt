@@ -14,8 +14,8 @@ class App : Application() {
 
         mInstance = this
 
-        val pref = SharedPref()
-        pref.SharedPref(this@App)
+        hkSP = SharedPref()
+        hkSP!!.SharedPref(this@App)
 
 
 
