@@ -21,21 +21,8 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.ImageFormat
-import android.graphics.Matrix
-import android.graphics.Paint
-import android.graphics.Rect
-import android.hardware.camera2.CameraAccessException
-import android.hardware.camera2.CameraCaptureSession
-import android.hardware.camera2.CameraCharacteristics
-import android.hardware.camera2.CameraDevice
-import android.hardware.camera2.CameraManager
-import android.hardware.camera2.CaptureRequest
-import android.hardware.camera2.CaptureResult
-import android.hardware.camera2.TotalCaptureResult
+import android.graphics.*
+import android.hardware.camera2.*
 import android.media.Image
 import android.media.ImageReader
 import android.media.ImageReader.OnImageAvailableListener
@@ -45,12 +32,7 @@ import android.os.HandlerThread
 import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
-import android.view.LayoutInflater
-import android.view.Surface
-import android.view.SurfaceHolder
-import android.view.SurfaceView
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -58,13 +40,12 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.enigma.App
 import com.enigma.R
-import java.util.concurrent.Semaphore
-import java.util.concurrent.TimeUnit
-import kotlin.math.abs
 import org.tensorflow.lite.examples.posenet.lib.BodyPart
 import org.tensorflow.lite.examples.posenet.lib.Person
 import org.tensorflow.lite.examples.posenet.lib.Posenet
-import java.security.interfaces.RSAKey
+import java.util.concurrent.Semaphore
+import java.util.concurrent.TimeUnit
+import kotlin.math.abs
 import kotlin.math.absoluteValue
 
 class PosenetActivity :
@@ -324,7 +305,8 @@ class PosenetActivity :
    * Opens the camera specified by [PosenetActivity.cameraId].
    */
   private fun openCamera() {
-    val permissionCamera = ContextCompat.checkSelfPermission(activity!!, Manifest.permission.CAMERA)
+    val permissionCamera =
+      ContextCompat.checkSelfPermission(activity!!, Manifest.permission.CAMERA)
     if (permissionCamera != PackageManager.PERMISSION_GRANTED) {
       requestCameraPermission()
     }
@@ -493,23 +475,23 @@ class PosenetActivity :
     paint.strokeWidth = 8.0f
   }
 
-    private fun setPaintGREEN() {
-        paint.color = Color.GREEN
-        paint.textSize = 80.0f
-        paint.strokeWidth = 8.0f
-    }
+  private fun setPaintGREEN() {
+    paint.color = Color.GREEN
+    paint.textSize = 80.0f
+    paint.strokeWidth = 8.0f
+  }
 
-    private fun setPaintYELLOW() {
-        paint.color = Color.YELLOW
-        paint.textSize = 80.0f
-        paint.strokeWidth = 8.0f
-    }
+  private fun setPaintYELLOW() {
+    paint.color = Color.YELLOW
+    paint.textSize = 80.0f
+    paint.strokeWidth = 8.0f
+  }
 
-    private fun setPaintBLUE() {
-        paint.color = Color.BLUE
-        paint.textSize = 80.0f
-        paint.strokeWidth = 8.0f
-    }
+  private fun setPaintBLUE() {
+    paint.color = Color.BLUE
+    paint.textSize = 80.0f
+    paint.strokeWidth = 8.0f
+  }
 
   /** Draw bitmap on Canvas.   */
   private fun draw(canvas: Canvas, person: Person, bitmap: Bitmap) {
@@ -540,8 +522,7 @@ class PosenetActivity :
       if (
         (person.keyPoints[line.first.ordinal].score > minConfidence) and
         (person.keyPoints[line.second.ordinal].score > minConfidence)
-      )
-      {
+      ) {
 
         var LS = person.keyPoints[5].position.y
         var RS = person.keyPoints[6].position.y
@@ -557,22 +538,30 @@ class PosenetActivity :
         val caliThresholdEndMin = 20
         val caliThresholdEndMax = 35
 
-        if(diffLSE < caliThresholdStartMin && diffRSE < caliThresholdStartMin && diffS < 5 && diffE < caliThresholdStartMin)
-        {
+        if (diffLSE < caliThresholdStartMin && diffRSE < caliThresholdStartMin && diffS < 5 && diffE < caliThresholdStartMin) {
+          if (App.getInstance().getSP().diffLSE() != 0) {
             App.getInstance().getSP().dataFirst(diffLSE, diffRSE, diffS, diffE)
-          Log.i("MATCH FOUND START",diffS.toString() + diffLSE.toString() + diffRSE.toString())
+          }
+          Log.i(
+            "MATCH FOUND START",
+            diffS.toString() + diffLSE.toString() + diffRSE.toString()
+          )
         }
 
-        if(LE < LS && RE < RS) {
+        if (LE < LS && RE < RS) {
           if ((diffLSE > caliThresholdEndMin && diffLSE < caliThresholdEndMax) && (diffRSE > caliThresholdEndMin && diffRSE < caliThresholdEndMax) && diffS < 5) {
+            if (App.getInstance().getSP().LE() != 0) {
               App.getInstance().getSP().dataSecond(LE, LS, RE, RS)
-            Log.i("MATCH FOUND END", diffS.toString() + diffLSE.toString() + diffRSE.toString())
+            }
+            Log.i(
+              "MATCH FOUND END",
+              diffS.toString() + diffLSE.toString() + diffRSE.toString()
+            )
           }
         }
 
         setPaintRED()
-        when(line)
-        {
+        when (line) {
 //            bodyJoints[0] -> setPaintYELLOW()
 //            bodyJoints[1] -> setPaintGREEN()
 //            bodyJoints[2] -> setPaintBLUE()
@@ -598,7 +587,7 @@ class PosenetActivity :
       }
     }
 
-      setPaintRED()
+    setPaintRED()
     canvas.drawText(
       "Score: %.2f".format(person.score),
       (15.0f * widthRatio),
@@ -632,7 +621,6 @@ class PosenetActivity :
 
     // Perform inference.
     val person = posenet.estimateSinglePose(scaledBitmap)
-
 
 
     val canvas: Canvas = surfaceHolder!!.lockCanvas()
