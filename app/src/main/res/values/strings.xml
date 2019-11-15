@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Enigma</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_exercise_list">ExerciseList</string>
+    <string name="push_up">Push Up</string>
+    <string name="squats">Squats</string>
+    <string name="lunges">Crunches</string>
+    <string name="shoulder">Shoulder</string>
+    <string name="title_activity_selection">SelectionActivity</string>
+    <string name="error_player">Error Player %1$s</string>
+    <string name="title_activity_result_screen">ResultScreenActivity</string>
+    <string name="need_improvement">Need Improvement</string>
+    <string name="excellent">Excellent</string>
+    <string name="good">Good</string>
+
+
+    <string name="picture" translation_description="Picture [CHAR_LIMIT=40]">Picture</string>
+    <string name="description_info" translation_description="Description information [CHAR_LIMIT=40]">Info</string>
+    <string name="request_permission" translation_description="Request camera permission [CHAR_LIMIT=40]">This app needs camera permission.</string>
+    <string name="camera_error" translation_description="Error regarding camera support[CHAR_LIMIT=40]">This device doesn\'t support Camera2 API.</string>
+    <string name="intro_message" translation_description="Introduction message for posenet [CHAR_LIMIT=120]">
+    <![CDATA[
+       Currently, posenet demo app detects the body parts of a single person on-device in real-time.
+    ]]>
+    </string>
+</resources>

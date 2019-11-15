@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="black">#000000</color>
+
+    <color name="standard">#02B464</color> <!--standard-->
+    <color name="high">#FFC000</color> <!--high-->
+    <color name="exceeded">#FF503C</color>
+    <color name="line">#bdbdbd</color>
+
+
+
+    <color name="control_background">#cc4285f4</color>
+    <color name="semi_transparent">#66000000</color>
+
+</resources>

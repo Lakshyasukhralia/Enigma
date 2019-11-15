@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ExerciseList"
+    tools:showIn="@layout/activity_exercise_list">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+           >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/alegreya"
+                android:text="Time for Exercise"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+         <include
+             android:id="@+id/pushups"
+             layout="@layout/exercise_name_tile"/>
+
+            <include
+                android:id="@+id/lunges"
+                layout="@layout/exercise_name_tile"/>
+
+            <include
+                android:id="@+id/squats"
+                layout="@layout/exercise_name_tile"/>
+
+
+            <include
+                android:id="@+id/shoulder"
+                layout="@layout/exercise_name_tile"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>
+
