@@ -546,8 +546,7 @@ class PosenetActivity :
             "MATCH FOUND START",
             diffS.toString() + diffLSE.toString() + diffRSE.toString()
           )
-//          Toast.makeText(context,diffS.toString() + diffLSE.toString() + diffRSE.toString(),Toast.LENGTH_LONG).show()
-          Log.i("MATCH FOUND START","START" + diffS.toString() + diffLSE.toString() + diffRSE.toString())
+          Toast.makeText(context,diffS.toString() + diffLSE.toString() + diffRSE.toString(),Toast.LENGTH_LONG).show()
         }
 
         if (LE < LS && RE < RS) {
@@ -559,8 +558,7 @@ class PosenetActivity :
               "MATCH FOUND END",
               diffS.toString() + diffLSE.toString() + diffRSE.toString()
             )
-//            Toast.makeText(context,diffS.toString() + diffLSE.toString() + diffRSE.toString(),Toast.LENGTH_LONG).show()
-            Log.i("MATCH FOUND END", "END" + diffS.toString() + diffLSE.toString() + diffRSE.toString())
+            Toast.makeText(context,diffS.toString() + diffLSE.toString() + diffRSE.toString(),Toast.LENGTH_LONG).show()
           }
         }
 
