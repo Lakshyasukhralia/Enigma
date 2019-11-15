@@ -3,6 +3,7 @@ package com.enigma
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -27,6 +28,7 @@ class SplashActivity : AppCompatActivity() {
     var i: Int = 0
     val list = ArrayList<Int>()
     var len = 0
+    lateinit var imageView: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +46,8 @@ class SplashActivity : AppCompatActivity() {
 //            finish()
 //        }, 500)
 
-        image.background =
+        imageView = findViewById(R.id.image)
+        imageView.background =
             VectorDrawableCompat.create(resources, R.drawable.ic_weight_lifting, null)
 
         list.add(R.drawable.ic_fitness)
@@ -63,7 +66,7 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(Intent(this@SplashActivity, GoalActivity::class.java))
                 finish()
             } else {
-                image.background = VectorDrawableCompat.create(resources, list[i], null)
+                imageView.background = VectorDrawableCompat.create(resources, list[i], null)
                 i++
                 changeImage()
             }
