@@ -1,1 +1,13 @@
 /build
+.gradle
+*.gradle/*
+.gradle/
+/local.properties
+.idea/*
+/.idea/workspace.xml
+/.idea/libraries
+/build
+*.iml
+/build/
+*/build/
+/*/build/

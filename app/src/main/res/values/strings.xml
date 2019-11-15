@@ -25,4 +25,5 @@
        Currently, posenet demo app detects the body parts of a single person on-device in real-time.
     ]]>
     </string>
+    <string name="title_activity_calibration">CalibrationActivity</string>
 </resources>

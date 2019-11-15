@@ -52,6 +52,7 @@ class PosenetActivity :
   Fragment(),
   ActivityCompat.OnRequestPermissionsResultCallback {
 
+  private lateinit var mActivity: CameraActivity
   /** List of body joints that should be connected.    */
   private val bodyJoints = listOf(
     Pair(BodyPart.LEFT_WRIST, BodyPart.LEFT_ELBOW), //YELLOW
@@ -67,6 +68,24 @@ class PosenetActivity :
     Pair(BodyPart.RIGHT_HIP, BodyPart.RIGHT_KNEE), //GREEN
     Pair(BodyPart.RIGHT_KNEE, BodyPart.RIGHT_ANKLE)//YELLOW
   )
+
+  var forCali = false
+  var caliThresholdEndMax : Int? = null
+  var caliThresholdStartMin : Int? = null
+  var caliThresholdStartMax : Int? = null
+  var caliThresholdEndMin : Int? = null
+
+  var LS : Int? = null
+  var RS : Int? = null
+  var LE : Int? = null
+  var RE : Int? = null
+  var diffLSE : Int? = null
+  var diffRSE : Int? = null
+  var diffS : Int? = null
+  var diffE : Int? = null
+  var stanceStart = false
+  var stanceEnd = false
+  var totalReps = 0
 
   /** Threshold for confidence score. */
   private val minConfidence = 0.5
@@ -207,12 +226,21 @@ class PosenetActivity :
     startBackgroundThread()
   }
 
+  override fun onActivityCreated(savedInstanceState: Bundle?) {
+    super.onActivityCreated(savedInstanceState)
+    forCali = mActivity.intent.extras?.getBoolean("forCali", false)!!
+  }
+
   override fun onStart() {
     super.onStart()
     openCamera()
     posenet = Posenet(this.context!!)
   }
 
+  override fun onAttach(context: Context?) {
+    super.onAttach(context)
+    mActivity = context as CameraActivity
+  }
   override fun onPause() {
     closeCamera()
     stopBackgroundThread()
@@ -495,6 +523,116 @@ class PosenetActivity :
 
   /** Draw bitmap on Canvas.   */
   private fun draw(canvas: Canvas, person: Person, bitmap: Bitmap) {
+
+
+    LS = person.keyPoints[5].position.y
+    RS = person.keyPoints[6].position.y
+    LE = person.keyPoints[7].position.y
+    RE = person.keyPoints[8].position.y
+    diffLSE = (LS!! - LE!!).absoluteValue
+    diffRSE = (RS!! - RE!!).absoluteValue
+    diffS = (LS!! - RS!!).absoluteValue
+    diffE = (LE!! - RE!!).absoluteValue
+
+
+
+
+    if(forCali) {
+
+      caliThresholdStartMin = 10
+      caliThresholdStartMax = 30
+      caliThresholdEndMin = 20
+      caliThresholdEndMax = 35
+
+      if (diffLSE!! < caliThresholdStartMin!! && diffRSE!! < caliThresholdStartMin!! && diffS!! < 5 && diffE!! < caliThresholdStartMin!!) {
+        if (App.getInstance().getSP().diffLSE() == 0) {
+          App.getInstance().getSP().dataFirst(diffLSE!!, diffRSE!!, diffS!!, diffE!!)
+        }
+        Log.i(
+          "MATCH FOUND START",
+          diffS.toString() + diffLSE.toString() + diffRSE.toString()
+        )
+      }
+
+      if (LE!! < LS!! && RE!! < RS!!) {
+        if ((diffLSE!! > caliThresholdEndMin!! && diffLSE!! < caliThresholdEndMax!!) && (diffRSE!! > caliThresholdEndMin!! && diffRSE!! < caliThresholdEndMax!!) && diffS!! < 5) {
+          if (App.getInstance().getSP().LE() == 0) {
+            App.getInstance().getSP().dataSecond(LE!!, LS!!, RE!!, RS!!)
+          }
+          Log.i(
+            "MATCH FOUND END",
+            diffS.toString() + diffLSE.toString() + diffRSE.toString()
+          )
+        }
+      }
+
+      if (App.getInstance().getSP().diffLSE() != 0 && App.getInstance().getSP().LE() != 0) {
+        showToast("Calibrated Successfully")
+        mActivity.finish()
+      }
+    }else{
+
+      caliThresholdStartMin = 5
+      caliThresholdStartMax = 15
+      caliThresholdEndMin = 0
+      caliThresholdEndMax = 18
+
+      var caliDiffLSE = App.getInstance().getSP().diffLSE()
+      var caliDiffRSE = App.getInstance().getSP().diffRSE()
+      var caliDiffS = App.getInstance().getSP().diffS()
+      var caliDiffE = App.getInstance().getSP().diffE()
+
+      var finalDiffLSE = (diffLSE!! - caliDiffLSE).absoluteValue
+      var finalDiffRSE = (diffRSE!! - caliDiffRSE).absoluteValue
+      var finalDiffS = (diffS!! - caliDiffS).absoluteValue
+      var finalDiffE = (diffE!! - caliDiffE).absoluteValue
+
+//      if (LE!! > LS!! || RE!! > RS!!) {
+//        if(stanceStart && totalReps!=0){
+//          stanceStart = false
+//          totalReps = totalReps - 1
+//
+//          Log.i(
+//            "MATCH REP DEDUCTED",
+//            finalDiffLSE.toString() + ", " + finalDiffRSE.toString() + ", " + finalDiffS.toString() + ", " + finalDiffE.toString()
+//          )
+//        }
+//      }
+
+      if (LE!! <= LS!! && RE!! <= RS!!) {
+        if (finalDiffLSE < caliThresholdStartMin!! && finalDiffRSE < caliThresholdStartMin!! && finalDiffS < 5 && finalDiffE < caliThresholdStartMin!!) {
+          if (stanceStart && stanceEnd) {
+            totalReps = totalReps + 1
+            Log.i("MATCH FOUND Pose Count", totalReps.toString())
+            stanceStart = false
+            stanceEnd = false
+          }else {
+            stanceStart = true
+          }
+          Log.i(
+            "MATCH FOUND START",
+            finalDiffLSE.toString() + ", " + finalDiffRSE.toString() + ", " + finalDiffS.toString() + ", " + finalDiffE.toString()
+          )
+        }
+
+          if ((finalDiffLSE > caliThresholdEndMin!! && finalDiffLSE < caliThresholdEndMax!!) && (finalDiffRSE > caliThresholdEndMin!! && finalDiffRSE < caliThresholdEndMax!!) && diffS!! < 5) {
+            stanceEnd = true
+            Log.i(
+              "MATCH FOUND END",
+              finalDiffLSE.toString() + ", " + finalDiffLSE.toString() + ", " + finalDiffRSE.toString() + ", " + finalDiffRSE.toString()
+            )
+          }
+        } else {
+        if (stanceStart) {
+          totalReps = totalReps - 1
+          stanceStart = false
+        }
+      }
+
+
+    }
+
+
     val screenWidth: Int = canvas.width
     val screenHeight: Int = canvas.height
     setPaintYELLOW()
@@ -524,43 +662,7 @@ class PosenetActivity :
         (person.keyPoints[line.second.ordinal].score > minConfidence)
       ) {
 
-        var LS = person.keyPoints[5].position.y
-        var RS = person.keyPoints[6].position.y
-        var LE = person.keyPoints[7].position.y
-        var RE = person.keyPoints[8].position.y
-        var diffLSE = (LS - LE).absoluteValue
-        var diffRSE = (RS - RE).absoluteValue
-        var diffS = (LS - RS).absoluteValue
-        var diffE = (LE - RE).absoluteValue
 
-        val caliThresholdStartMin = 10
-        val caliThresholdStartMax = 15
-        val caliThresholdEndMin = 20
-        val caliThresholdEndMax = 35
-
-        if (diffLSE < caliThresholdStartMin && diffRSE < caliThresholdStartMin && diffS < 5 && diffE < caliThresholdStartMin) {
-          if (App.getInstance().getSP().diffLSE() != 0) {
-            App.getInstance().getSP().dataFirst(diffLSE, diffRSE, diffS, diffE)
-          }
-          Log.i(
-            "MATCH FOUND START",
-            diffS.toString() + diffLSE.toString() + diffRSE.toString()
-          )
-          Toast.makeText(context,diffS.toString() + diffLSE.toString() + diffRSE.toString(),Toast.LENGTH_LONG).show()
-        }
-
-        if (LE < LS && RE < RS) {
-          if ((diffLSE > caliThresholdEndMin && diffLSE < caliThresholdEndMax) && (diffRSE > caliThresholdEndMin && diffRSE < caliThresholdEndMax) && diffS < 5) {
-            if (App.getInstance().getSP().LE() != 0) {
-              App.getInstance().getSP().dataSecond(LE, LS, RE, RS)
-            }
-            Log.i(
-              "MATCH FOUND END",
-              diffS.toString() + diffLSE.toString() + diffRSE.toString()
-            )
-            Toast.makeText(context,diffS.toString() + diffLSE.toString() + diffRSE.toString(),Toast.LENGTH_LONG).show()
-          }
-        }
 
         setPaintRED()
         when (line) {

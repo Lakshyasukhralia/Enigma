@@ -36,6 +36,7 @@ class SelectionActivity : AppCompatActivity() {
 //            })
 
             startActivity(Intent(SelectionActivity@this, CameraActivity::class.java).apply {
+                putExtra("forCali", false)
             })
         }
 
@@ -46,6 +47,11 @@ class SelectionActivity : AppCompatActivity() {
             })
         }
 
+
+        binding.calibrationButton.setOnClickListener {
+            startActivity(Intent(SelectionActivity@this, CalibrationActivity::class.java).apply {
+            })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
