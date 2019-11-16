@@ -87,7 +87,7 @@ class PosenetActivity :
   var diffE : Int? = null
   var stanceStart = false
   var stanceEnd = false
-  var totalReps = 0f
+  var totalReps = 0
 
   /** Threshold for confidence score. */
   private val minConfidence = 0.5
@@ -240,7 +240,10 @@ class PosenetActivity :
       if(!forCali){
         Handler().postDelayed({
             startActivity(Intent(mActivity, ResultScreenActivity::class.java).apply {
-                putExtra("score", totalReps.toInt())
+              if(totalReps < 4 ){
+                totalReps = 4
+              }
+                putExtra("score", totalReps)
                 putExtra("total", 15)
             })
 
@@ -626,7 +629,7 @@ class PosenetActivity :
           }
 
         if (stanceStart && stanceEnd) {
-          totalReps = totalReps + 0.5f
+          totalReps = totalReps + 1
           Log.i("MATCH FOUND Pose Count", totalReps.toString())
           stanceStart = false
           stanceEnd = false
