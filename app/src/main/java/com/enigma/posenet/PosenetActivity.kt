@@ -87,7 +87,7 @@ class PosenetActivity :
   var diffE : Int? = null
   var stanceStart = false
   var stanceEnd = false
-  var totalReps = 0
+  var totalReps = 0f
 
   /** Threshold for confidence score. */
   private val minConfidence = 0.5
@@ -240,7 +240,7 @@ class PosenetActivity :
       if(!forCali){
         Handler().postDelayed({
             startActivity(Intent(mActivity, ResultScreenActivity::class.java).apply {
-                putExtra("score", 12)
+                putExtra("score", totalReps.toInt())
                 putExtra("total", 15)
             })
 
@@ -546,8 +546,6 @@ class PosenetActivity :
     diffE = (LE!! - RE!!).absoluteValue
 
 
-
-
     if(forCali) {
 
       caliThresholdStartMin = 10
@@ -612,14 +610,7 @@ class PosenetActivity :
 
       if (LE!! <= LS!! && RE!! <= RS!!) {
         if (finalDiffLSE < caliThresholdStartMin!! && finalDiffRSE < caliThresholdStartMin!! && finalDiffS < 5 && finalDiffE < caliThresholdStartMin!!) {
-          if (stanceStart && stanceEnd) {
-            totalReps = totalReps + 1
-            Log.i("MATCH FOUND Pose Count", totalReps.toString())
-            stanceStart = false
-            stanceEnd = false
-          }else {
-            stanceStart = true
-          }
+          stanceStart = true
           Log.i(
             "MATCH FOUND START",
             finalDiffLSE.toString() + ", " + finalDiffRSE.toString() + ", " + finalDiffS.toString() + ", " + finalDiffE.toString()
@@ -633,12 +624,20 @@ class PosenetActivity :
               finalDiffLSE.toString() + ", " + finalDiffLSE.toString() + ", " + finalDiffRSE.toString() + ", " + finalDiffRSE.toString()
             )
           }
-        } else {
-        if (stanceStart) {
-          totalReps = totalReps - 1
+
+        if (stanceStart && stanceEnd) {
+          totalReps = totalReps + 0.5f
+          Log.i("MATCH FOUND Pose Count", totalReps.toString())
           stanceStart = false
+          stanceEnd = false
         }
-      }
+        }
+//      else {
+//        if (stanceStart) {
+////          totalReps = totalReps - 1
+//          stanceStart = false
+//        }
+//      }
 
 
     }
