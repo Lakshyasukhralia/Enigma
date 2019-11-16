@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.enigma.databinding.ContentResultScreenBinding
+import com.enigma.databinding.VideoLayoutBinding
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -66,7 +67,17 @@ class ResultScreenActivity : AppCompatActivity() {
             }
         }
 
+        recommendedVideo("https://www.youtube.com/embed/kGooAJM3294")
+        recommendedVideo("https://www.youtube.com/embed/QOVaHwm-Q6U")
+        recommendedVideo("https://www.youtube.com/embed/IODxDxX7oi4")
 
+    }
+
+    private fun recommendedVideo(videoUrl: String) {
+        val videoBinding  = VideoLayoutBinding.inflate(layoutInflater, binding.linearLayout, false)
+        videoBinding.webView.settings.javaScriptEnabled = true
+        videoBinding.webView.loadUrl(videoUrl)
+        binding.linearLayout.addView(videoBinding.root)
     }
 
 
